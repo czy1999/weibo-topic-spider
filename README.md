@@ -27,6 +27,7 @@
 ![](img/weibo.png)
 
 词频统计展示
+
 ![](img/seg.png)
 
 如有其他问题，欢迎提交issue
