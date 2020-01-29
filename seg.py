@@ -6,7 +6,7 @@ import pandas as pd
 
 
 
-def save(filename,cnt):
+def save_seg(filename,cnt):
     f_out = open(filename, 'w+')
     result = cnt.most_common(100)
     for ix in result:
@@ -32,5 +32,5 @@ for file in wj:
                 cnt[seg] = cnt[seg] + 1
 
 
-    save("seg_result/"+file+".txt",cnt) # 保存文件
+    save_seg("seg_result/"+file+".txt",cnt) # 保存文件
 
