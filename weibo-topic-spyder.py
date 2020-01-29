@@ -118,15 +118,10 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
     
     #加载驱动，使用浏览器打开指定网址  
     driver.set_window_size(452, 790)
-    #driver.get("https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=https%3A%2F%2Fm.weibo.cn%2F")  
     driver.get("https://passport.weibo.cn/signin/login")
-    #driver.get("https://m.weibo.cn")
-
     print("开始自动登陆，若出现验证码手动验证")
     time.sleep(3)
-    
-    
-    #登陆
+
     elem = driver.find_element_by_xpath("//*[@id='loginName']");
     elem.send_keys(username)
     elem = driver.find_element_by_xpath("//*[@id='loginPassword']");
@@ -143,9 +138,8 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
         driver.add_cookie(ix)
     driver.get("https://m.weibo.cn")
     '''
-
-    
-    #判断页面是否加载出
+        
+        
     while 1:  # 循环条件为1必定成立
         result = isPresent()
         print ('判断页面1成功 0失败  结果是=%d' % result )
@@ -156,21 +150,20 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
         else:
             print ('页面还没加载出来呢')
             time.sleep(20)
+
     time.sleep(2)
+
     #搜索关键词
     elem = driver.find_element_by_xpath("//*[@class='m-text-cut']").click();
     time.sleep(2)
     elem = driver.find_element_by_xpath("//*[@type='search']");
     elem.send_keys(keyword)
     elem.send_keys(Keys.ENTER)
-
     time.sleep(5)
-    #elem = driver.find_element_by_xpath("//*[@id='app']/div[1]/div[1]/div[3]/div/div/div/div[1]/span[2]/span[1]")
-
-    #elem.click()
+    elem = driver.find_element_by_xpath("//*[@class='box-left m-box-col m-box-center-a']")
+    elem.click()
     print("超话链接获取完毕，休眠2秒")
     time.sleep(2)
-    
     yuedu_taolun = driver.find_element_by_xpath("//*[@id='app']/div[1]/div[1]/div[1]/div[4]/div/div/div/a/div[2]/h4[1]").text
     yuedu = yuedu_taolun.split("　")[0]
     taolun = yuedu_taolun.split("　")[1]
@@ -186,9 +179,9 @@ if __name__ == '__main__':
     username = "" #你的微博登录名
     password = "" #你的密码
     driver = webdriver.Chrome()#你的chromedriver的地址
-    book_name_xls = "teamwe.xls" #填写你想存放excel的路径，没有文件会自动创建
+    book_name_xls = "test.xls" #填写你想存放excel的路径，没有文件会自动创建
     sheet_name_xls = '微博数据' #sheet表名
     maxWeibo = 5000 #设置最多多少条微博
-    keywords = ["teamwe"] 
+    keywords = ["肺炎",] # 此处可以设置多个超话关键词 
     for keyword in keywords:
         spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeibo)
