@@ -160,7 +160,11 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
     elem.send_keys(keyword)
     elem.send_keys(Keys.ENTER)
     time.sleep(5)
-    elem = driver.find_element_by_xpath("//*[@class='box-left m-box-col m-box-center-a']")
+    
+    # elem = driver.find_element_by_xpath("//*[@class='box-left m-box-col m-box-center-a']")
+    # 修改为点击超话图标进入超话，减少错误
+    elem = driver.find_element_by_xpath("//img[@src ='http://simg.s.weibo.com/20181009184948_super_topic_bg_small.png']")
+    elem.click()
     elem.click()
     print("超话链接获取完毕，休眠2秒")
     time.sleep(2)
