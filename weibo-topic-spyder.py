@@ -142,6 +142,8 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
         
     while 1:  # 循环条件为1必定成立
         result = isPresent()
+        # 解决输入验证码无法跳转的问题
+        driver.get('https://m.weibo.cn/') 
         print ('判断页面1成功 0失败  结果是=%d' % result )
         if result == 1:
             elems = driver.find_elements_by_css_selector('div.line-around.layout-box.mod-pagination > a:nth-child(2) > div > select > option')
@@ -164,7 +166,6 @@ def spider(username,password,driver,book_name_xls,sheet_name_xls,keyword,maxWeib
     # elem = driver.find_element_by_xpath("//*[@class='box-left m-box-col m-box-center-a']")
     # 修改为点击超话图标进入超话，减少错误
     elem = driver.find_element_by_xpath("//img[@src ='http://simg.s.weibo.com/20181009184948_super_topic_bg_small.png']")
-    elem.click()
     elem.click()
     print("超话链接获取完毕，休眠2秒")
     time.sleep(2)
