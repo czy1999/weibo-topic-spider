@@ -1,6 +1,10 @@
-2020/1/29 已修复爬取错误，测试正常，更新武汉肺炎超话爬取数据，愿武汉一切安好。
 # weibo-topic-spyder
 微博超级话题爬虫，微博词频统计+情感分析+简单分类
+
+
+爬取数据展示
+![](img/fy.png)
+![](img/weibo.png)
 
 ### 使用方法
 在weibo-topic-spyder.py的主函数中输入账号、密码和想要爬取的超话名称即可开始爬取，需要提前安装所需的python库和chromedriver驱动
@@ -20,12 +24,6 @@
 
 ### 情感分析 
 调用了百度大脑的api接口，可以自行注册获取key，平台不限调用次数，详细接口见[百度大脑](https://ai.baidu.com/tech/nlp_apply/sentiment_classify) 
-
-
-爬取数据展示
-![](img/fy.png)
-![](img/weibo.png)
-
 
 ### 其他
 欢迎大家参与和完善：如有其他问题，欢迎提交issue
