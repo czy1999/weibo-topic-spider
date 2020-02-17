@@ -4,16 +4,12 @@ import numpy as np
 import time
 
 
-
 # 此处输入baiduAIid
 APP_ID = ''
 API_KEY = ''
 SECRET_KEY = ''
 
-
 client = AipNlp(APP_ID, API_KEY, SECRET_KEY)
-
-data = pd.read_excel('teamwe.xls',encoding='utf-8')
 
 def isPostive(text):
     try:
@@ -24,18 +20,30 @@ def isPostive(text):
     except:
         return "积极"
 
+# 读取文件，注意修改文件路径
+file_path = 'mlxg.xls'
+data = pd.read_excel(file_path,encoding='utf-8')
 
-data = pd.read_excel('mlxg.xls',encoding='utf-8')
-
-aa = []
+moods = []
 count = 1
 for i in data['微博内容']:
-    aa.append(isPostive(i))
+    moods.append(isPostive(i))
     count+=1
-    print(count)
+    print("目前分析到："+count)
+
+data['情感倾向'] = pd.Series(moods)
+
+# 此处为覆盖保存
+data.to_excel(file_path)
+print("分析完成，已保存")
 
 
+'''
+# 此处为简单分类:P
 def fenlei(text):
+    xf = ['抽奖',"抽一个","抽一位","买","通贩"]
+    cz = ["画","实物","返图","合集","摸鱼","漫","自制","攻略","授权","草稿","绘"]
+    gj = ["hz","狗粉丝","狗女儿"]
     for j in cz:
         if j in text:
             return "创作"
@@ -46,13 +54,4 @@ def fenlei(text):
         if k in text:
             return "攻击"
     return "其他"        
-    
-
-
-xf = ['抽奖',"抽一个","抽一位","买","通贩"]
-cz = ["画","实物","返图","合集","摸鱼","漫","自制","攻略","授权","草稿","绘"]
-gj = ["hz","狗粉丝","狗女儿"]
-
-b= []
-for ix in data['微博内容']:
-    b.append(fenlei(ix))
+''' 
