@@ -59,13 +59,13 @@ def insert_data(elems,path,name,yuedu,taolun,num):
         #获取分享数，评论数和点赞数               
         shares = elem.find_elements_by_css_selector('i.m-font.m-font-forward + h4')[0].text
         if shares == '转发':
-            shares = 0
+            shares = '0'
         comments = elem.find_elements_by_css_selector('i.m-font.m-font-comment + h4')[0].text
         if comments == '评论':
-            comments = 0
+            comments = '0'
         likes = elem.find_elements_by_css_selector('i.m-icon.m-icon-like + h4')[0].text
         if likes == '赞':
-            likes = 0
+            likes = '0'
 
         #发布时间
         weibo_time = elem.find_elements_by_css_selector('span.time')[0].text
@@ -164,8 +164,7 @@ def spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num):
     #加载驱动，使用浏览器打开指定网址  
     driver.set_window_size(452, 790)
     driver.get('https://m.weibo.cn')
-    driver.delete_all_cookies()
-    '''
+    
     driver.get("https://passport.weibo.cn/signin/login")
     print("开始自动登陆，若出现验证码手动验证")
     time.sleep(3)
@@ -178,18 +177,21 @@ def spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num):
     elem.send_keys(Keys.ENTER)  
     print("暂停20秒，用于验证码验证")
     time.sleep(20)
-    '''
+    
     
     # 添加cookie
     #将提前从chrome控制台中复制来的cookie保存在txt中，转化成name, value形式传给selenium的driver
     #实现自动登录
     #如果txt中的cookie是用selenium保存的，则可以直接使用, 无需转化
+    '''
+    driver.delete_all_cookies()
     with open(r'./weibocookie.txt') as file:
         cookies = json.loads(file.read())
     for name, value in cookies.items():
         print(name, value)
         driver.add_cookie({'name': name, 'value': value})
     driver.refresh()
+    '''
     
         
         
@@ -234,10 +236,10 @@ def spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num):
 
     
 if __name__ == '__main__':
-    username = "363124278@qq.com" #你的微博登录名
-    password = "11021224gjx" #你的密码
+    username = "" #你的微博登录名
+    password = "" #你的密码
     driver = webdriver.Chrome()#你的chromedriver的地址
-    driver.implicitly_wait(2)
+    driver.implicitly_wait(2)#隐式等待2秒
     book_name_xls = "test.xls" #填写你想存放excel的路径，没有文件会自动创建
     sheet_name_xls = '微博数据' #sheet表名
     maxWeibo = 50 #设置最多多少条微博
