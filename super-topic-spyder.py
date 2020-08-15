@@ -28,7 +28,7 @@ def isPresent():
     return temp
 
 #插入数据
-def insert_data(elems,path,name,yuedu,taolun,num):
+def insert_data(elems,path,name,yuedu,taolun,num,save_pic):
     for elem in elems:
         workbook = xlrd.open_workbook(path)  # 打开工作簿
         sheets = workbook.sheet_names()  # 获取工作簿中的所有表格
@@ -55,7 +55,8 @@ def insert_data(elems,path,name,yuedu,taolun,num):
         #点击“全文”，获取完整的微博文字内容
         weibo_content = get_all_text(elem)
         #获取微博图片
-        num = get_pic(elem,num)
+        if save_pic:
+            num = get_pic(elem,num)
         #获取分享数，评论数和点赞数               
         shares = elem.find_elements_by_css_selector('i.m-font.m-font-forward + h4')[0].text
         if shares == '转发':
@@ -150,23 +151,23 @@ def get_current_weibo_data(elems,book_name_xls,name,yuedu,taolun,maxWeibo,num):
                 n = n + 1
             if n == 5:
                 print("当前关键词最大微博数为：%d" % after)
-                insert_data(elems,book_name_xls,name,yuedu,taolun)
+                insert_data(elems,book_name_xls,name,yuedu,taolun,num,save_pic)
                 break
             if len(elems)>maxWeibo:
                 print("当前微博数以达到%d条"%maxWeibo)
-                insert_data(elems,book_name_xls,name,yuedu,taolun,num)
+                insert_data(elems,book_name_xls,name,yuedu,taolun,num,save_pic)
                 break
             '''
             if after > timeToSleep:
                 print("抓取到%d多条，插入当前新抓取数据并休眠5秒" % timeToSleep)
                 timeToSleep = timeToSleep + 100
-                insert_data(elems,book_name_xls,name,yuedu,taolun) 
+                insert_data(elems,book_name_xls,name,yuedu,taolun,num,save_pic) 
                 time.sleep(5) 
             '''
 
 
 #爬虫运行 
-def spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num):
+def spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num,save_pic):
     
     #创建文件
     if os.path.exists(book_name_xls):
@@ -257,10 +258,11 @@ if __name__ == '__main__':
     driver.implicitly_wait(2)#隐式等待2秒
     book_name_xls = "test.xls" #填写你想存放excel的路径，没有文件会自动创建
     sheet_name_xls = '微博数据' #sheet表名
-    maxWeibo = 50 #设置最多多少条微博
+    maxWeibo = 10 #设置最多多少条微博
     keywords = ["肺炎",] # 此处可以设置多个超话关键词
     num = 1
-    pic_addr = 'D:\python\爬虫\图片\\' #设置自己想要放置图片的路径
+    save_pic = False  #设置是否同时爬取微博图片，默认不爬取
+    pic_addr = 'img/' #设置自己想要放置图片的路径
 
     for keyword in keywords:
-        spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num)
+        spider(username,password,book_name_xls,sheet_name_xls,keyword,maxWeibo,num,save_pic)
