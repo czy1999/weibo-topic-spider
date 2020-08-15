@@ -103,9 +103,24 @@ def get_all_text(elem):
 def get_pic(elem,num):
     try:
         #获取该条微博中的图片元素,之后遍历每个图片元素，获取图片链接并下载图片
-        pic_links = elem.find_elements_by_css_selector('div > div > article > div > div:nth-child(2) > div > div > img')
-        for pic_link in pic_links:
-            pic_link = pic_link.get_attribute('src')
+        #如果是多张图片
+        if elem.find_elements_by_css_selector\
+           ('div > div > article > div > div:nth-child(2) > div > ul > li') != [] :
+            pic_links = elem.find_elements_by_css_selector\
+           ('div > div > article > div > div:nth-child(2) > div > ul > li')
+            for pic_link in pic_links:
+                pic_link = pic_link.find_element_by_css_selector\
+                           ('div > img').get_attribute('src')
+                response = requests.get(pic_link)
+                pic = response.content
+                with open(pic_addr + str(num) + '.jpg', 'wb') as file:
+                    file.write(pic)
+                    num += 1
+        #如果图片只有一张
+        else:
+            pic_link = elem.find_element_by_css_selector\
+                       ('div > div > article > div > div:nth-child(2) > div > div > img').\
+                       get_attribute('src')
             response = requests.get(pic_link)
             pic = response.content
             with open(pic_addr + str(num) + '.jpg', 'wb') as file:
